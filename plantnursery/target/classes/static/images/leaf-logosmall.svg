@@ -1,0 +1,15 @@
+<svg aria-label="GreenHouse Nursery" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="3.2 3.04 46.4 42.4" style="max-height: 500px" width="46.4" height="42.4">
+  <defs>
+    <linearGradient y2="1" y1="0" x2="1" x1="0" id="g">
+      <stop offset="0" stop-color="#22c55e"/>
+      <stop offset="1" stop-color="#117a37"/>
+    </linearGradient>
+  </defs>
+  <rect fill="transparent" rx="6" height="48" width="160"/>
+  <g transform="translate(8,4)">
+    <circle fill="url(#g)" r="16" cy="20" cx="18"/>
+    <path stroke-linecap="round" stroke-width="2" stroke="#fff" fill="none" d="M12 24 C18 18, 28 18, 34 12"/>
+    <text fill="#0f172a" font-size="18" font-weight="700" font-family="Segoe UI, Roboto, Arial" y="28" x="48">GreenHouse</text>
+    <text fill="#6b7280" font-size="11" font-family="Segoe UI, Roboto, Arial" y="40" x="48">Nursery</text>
+  </g>
+</svg>

@@ -63,7 +63,7 @@ body{
   gap:.6rem;
   align-items:center;
   text-decoration:none;
-  color:var(--accent);
+  color:white;
   font-weight:700;
 }
 .brand-icon{
