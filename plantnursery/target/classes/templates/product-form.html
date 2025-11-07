@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Product - GreenHouse Nursery</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container page center" style="max-width:720px;">
+        <div class="card">
+            <h2 th:text="${product.id}==null ? 'New Product' : 'Edit Product'">New Product</h2>
+            <form th:action="@{/inventory/save}" th:object="${product}" method="post" style="margin-top:1rem;">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-row">
+                    <div class="form-field"><label>Name</label><input th:field="*{name}" required/></div>
+                    <div class="form-field"><label>Species</label><input th:field="*{species}"/></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field"><label>Category</label><input th:field="*{category}"/></div>
+                    <div class="form-field"><label>Price</label><input th:field="*{price}" type="number" step="0.01"/></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field"><label>Stock</label><input th:field="*{stockQuantity}" type="number"/></div>
+                </div>
+
+                <div style="display:flex; gap:.5rem; justify-content:flex-end;">
+                    <a th:href="@{/inventory}" class="btn btn-ghost">Cancel</a>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

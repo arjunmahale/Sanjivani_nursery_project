@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Inventory - GreenHouse Nursery</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container page">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+            <h1 style="margin:0;">Inventory</h1>
+            <div>
+                <a th:href="@{/inventory/new}" class="btn btn-primary">Add Plant</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="table-responsive">
+            <table class="table">
+                <thead><tr><th>Name</th><th>Species</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
+                <tbody>
+                <tr th:each="p: ${products}">
+                    <td th:text="${p.name}">Name</td>
+                    <td th:text="${p.species}">Species</td>
+                    <td th:text="${p.category}">Category</td>
+                    <td th:text="${p.price}">0</td>
+                    <td th:text="${p.stockQuantity}">0</td>
+                    <td class="actions">
+                        <a th:href="@{'/inventory/edit/' + ${p.id}}" class="btn btn-ghost">Edit</a>
+                        <a th:href="@{'/inventory/delete/' + ${p.id}}" class="btn btn-ghost" onclick="return confirm('Delete product?')">Delete</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(products)}"><td colspan="6" class="text-muted">No products</td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

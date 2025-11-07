@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <title>Nursery Admin Login</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body class="fade-in">
+<div class="container page center" style="max-width:480px;">
+  <div class="card" style="margin-top:40px; padding:2rem; text-align:left;">
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+      <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#22c55e,#117a37);display:grid;place-items:center;color:white;font-weight:700;font-size:20px;">GH</div>
+      <div>
+        <h2 style="margin:0 0 .25rem 0;">Admin Login</h2>
+        <div class="text-muted">Access the GreenHouse Nursery admin dashboard</div>
+      </div>
+    </div>
+    <form th:action="@{/login}" method="post" style="display:flex;flex-direction:column;gap:.75rem;">
+      <div class="form-field"><label>Username</label><input type="text" name="username" autofocus required/></div>
+      <div class="form-field"><label>Password</label><input type="password" name="password" required/></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem;">
+        <div class="text-muted" style="font-size:.9rem;">Demo: admin / admin123</div>
+        <button class="btn btn-primary" type="submit">Login</button>
+      </div>
+      <div th:if="${param.error}" class="text-muted" style="color:var(--danger);margin-top:.5rem;">Invalid credentials</div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

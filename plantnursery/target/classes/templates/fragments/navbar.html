@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="navbar">
+<body>
+<header class="site-header fade-in-down">
+  <div class="container header-inner">
+    <a class="brand" th:href="@{/dashboard}">
+      <img src="/images/leaf-logo.svg" alt="Nursery" class="brand-icon" onerror="this.style.display='none'"/>
+     <!--<span class="brand-text">GreenHouse Nursery</span>  --> 
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a th:href="@{/dashboard}" class="nav-link">Dashboard</a>
+      <a th:href="@{/customers}" class="nav-link">Customers</a>
+      <a th:href="@{/inventory}" class="nav-link">Inventory</a>
+      <a th:href="@{/orders}" class="nav-link">Orders</a>
+      <a th:href="@{/reports}" class="nav-link">Reports</a>
+    </nav>
+    <div class="header-actions">
+     <!-- <form class="search-form" th:action="@{/search}" method="get">
+        <input name="q" class="search-input" placeholder="Search customers, products..." />
+      </form>  -->
+      <div class="user-menu">
+       <!--  <span class="user-name">Admin</span> -->
+        <a th:href="@{/logout}" class="btn btn-ghost">Logout</a>
+      </div>
+    </div>
+  </div>
+</header>
+</body>
+</html>

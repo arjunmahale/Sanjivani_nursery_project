@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="footer">
+<body>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>© <span th:text="${T(java.time.Year).now().value}">2025</span> GreenHouse Nursery</div>
+    <div class="footer-links">
+      <a th:href="@{/privacy}">Privacy</a>
+      <a th:href="@{/terms}">Terms</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

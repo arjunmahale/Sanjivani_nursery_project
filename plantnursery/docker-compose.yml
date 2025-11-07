@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-nurserydb}
+      MYSQL_USER: ${MYSQL_USER:-nursery}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-nursery}
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  app:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/${MYSQL_DATABASE:-nurserydb}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-nursery}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-nursery}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost:8080}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN:}
+      TWILIO_FROM_NUMBER: ${TWILIO_FROM_NUMBER:}
+      SPRING_MAIL_HOST: ${SPRING_MAIL_HOST:}
+      SPRING_MAIL_PORT: ${SPRING_MAIL_PORT:}
+      SPRING_MAIL_USERNAME: ${SPRING_MAIL_USERNAME:}
+      SPRING_MAIL_PASSWORD: ${SPRING_MAIL_PASSWORD:}
+      APP_ADMIN_USERNAME: ${APP_ADMIN_USERNAME:-admin}
+      APP_ADMIN_PASSWORD: ${APP_ADMIN_PASSWORD:-{noop}admin123}
+      APP_BILLS_FOLDER: /app/bills
+      APP_INVOICE_TAX_PERCENT: ${APP_INVOICE_TAX_PERCENT:-18.0}
+      APP_COMPANY_NAME: ${APP_COMPANY_NAME:-GreenHouse Nursery}
+      APP_COMPANY_ADDRESS: ${APP_COMPANY_ADDRESS:-123 Green Lane, Plant City}
+      APP_COMPANY_PHONE: ${APP_COMPANY_PHONE:-+91-98765-43210}
+      APP_COMPANY_EMAIL: ${APP_COMPANY_EMAIL:-info@greenhouse.example}
+    volumes:
+      - ./bills:/app/bills
+    restart: unless-stopped
+
+volumes:
+  db-data:

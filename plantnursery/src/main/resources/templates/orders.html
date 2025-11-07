@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Orders - GreenHouse Nursery</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+
+    <style>
+        /* Small style fix for sort bar */
+        .sort-bar {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="container page">
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h1 style="margin:0;">Orders</h1>
+        <div>
+            <a th:href="@{/orders/new}" class="btn btn-primary">Create Order</a>
+        </div>
+    </div>
+
+    <!-- ✅ SORT BAR -->
+    <div class="sort-bar">
+        <label style="font-weight:600; color:var(--muted);">Sort Orders:</label>
+
+        <select id="sortSelect" class="search-input" style="min-width:200px;">
+            <option value="newest">Newest First</option>
+            <option value="delivery">Delivery Date</option>
+        </select>
+    </div>
+
+    <!-- ✅ ORDERS TABLE -->
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table" id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Total</th>
+                        <th>Delivery</th>
+                        <th>Status</th>
+                        <th>Bill</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="o: ${orders}" class="order-row"
+                    th:data-id="${o.id}"
+                    th:data-created="${o.createdAt}"
+                    th:data-delivery="${o.deliveryDate}">
+                    
+                    <td th:text="${o.id}">1</td>
+                    <td th:text="${o.customer.name}">Customer</td>
+                    <td th:text="${o.total}">0</td>
+                    <td th:text="${o.deliveryDate}">none</td>
+
+                    <!-- ✅ Status Badge -->
+                    <td>
+                        <span class="badge"
+                              th:text="${o.paymentStatus}">
+                        </span>
+
+                        <span th:if="${o.paymentStatus == null}"
+                              class="text-muted">
+                            No status
+                        </span>
+                    </td>
+
+                    <td>
+                        <span th:if="${o.billPath != null}">
+                            <a th:href="@{'/orders/' + ${o.id} + '/bill'}"
+                               class="btn btn-ghost" target="_blank">
+                                View Bill
+                            </a>
+                        </span>
+                        <span th:if="${o.billPath == null}" class="text-muted">
+                            Not generated
+                        </span>
+                    </td>
+
+                    <td class="actions">
+                        <a th:href="@{'/orders/view/' + ${o.id}}" class="btn btn-ghost">
+                            Send Bill
+                        </a>
+
+                        <a th:href="@{'/orders/delete/' + ${o.id}}" 
+                           class="btn btn-ghost"
+                           onclick="return confirm('Delete order?')">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(orders)}">
+                    <td colspan="7" class="text-muted">No orders yet</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- ✅ JAVASCRIPT FOR CLIENT-SIDE SORTING -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const sortSelect = document.getElementById("sortSelect");
+    const table = document.getElementById("ordersTable");
+    const tbody = table.querySelector("tbody");
+
+    // ✅ Default sort on page load: NEWEST FIRST
+    sortOrders("newest");
+
+    // ✅ When user changes dropdown
+    sortSelect.addEventListener("change", () => {
+        sortOrders(sortSelect.value);
+    });
+
+    function sortOrders(type) {
+
+        let rows = Array.from(tbody.querySelectorAll(".order-row"));
+
+        rows.sort((a, b) => {
+
+            if (type === "newest") {
+                let aDate = new Date(a.dataset.created);
+                let bDate = new Date(b.dataset.created);
+                return bDate - aDate; // newest first
+            }
+
+            if (type === "delivery") {
+                let aDel = new Date(a.dataset.delivery || "2100-01-01");
+                let bDel = new Date(b.dataset.delivery || "2100-01-01");
+                return aDel - bDel; // earliest first
+            }
+
+        });
+
+        // ✅ Clear table and re-attach sorted rows
+        tbody.innerHTML = "";
+        rows.forEach(r => tbody.appendChild(r));
+    }
+});
+</script>
+
+</body>
+</html>

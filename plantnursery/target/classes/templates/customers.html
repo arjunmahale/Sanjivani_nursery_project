@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Customers - GreenHouse Nursery</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container page">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1rem;">
+            <h1 style="margin:0;">Customers</h1>
+            <div style="display:flex; gap:.5rem;">
+                <a th:href="@{/customers/new}" class="btn btn-primary">New Customer</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="table-responsive">
+            <table class="table">
+                <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Actions</th></tr></thead>
+                <tbody>
+                <tr th:each="c: ${customers}">
+                    <td th:text="${c.name}">Name</td>
+                    <td th:text="${c.phone}">Phone</td>
+                    <td th:text="${c.email}">Email</td>
+                    <td th:text="${c.address}">Address</td>
+                    <td class="actions">
+                        <a th:href="@{'/customers/edit/' + ${c.id}}" class="btn btn-ghost">Edit</a>
+                        <a th:href="@{'/customers/delete/' + ${c.id}}" class="btn btn-ghost" onclick="return confirm('Delete this customer?')">Delete</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(customers)}"><td colspan="5" class="text-muted">No customers yet</td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

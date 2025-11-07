@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Order Detail - GreenHouse Nursery</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container page" style="max-width:900px;">
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h2>Order #<span th:text="${order.id}">1</span></h2>
+                    <div class="text-muted">Customer: <strong th:text="${order.customer.name}">Customer</strong></div>
+                    <div class="text-muted">Delivery: <strong th:text="${order.deliveryDate}">2025-01-01</strong></div>
+                </div>
+                <div style="text-align:right;">
+                    <div class="kpi-value" th:text="${order.total}">0</div>
+                    <div style="margin-top:.5rem;">
+                        <span class="badge" th:text="${order.paymentStatus}">PENDING</span>
+                        <span class="badge badge-new" th:text="${order.status}">NEW</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:1rem; display:flex; gap:.5rem;">
+                <a th:if="${order.billPath != null}" th:href="@{'/orders/' + ${order.id} + '/bill'}" class="btn btn-ghost" target="_blank">View Bill</a>
+
+                <form th:action="@{'/orders/send-bill/' + ${order.id}}" method="post" style="display:inline;">
+                    <button class="btn btn-primary" type="submit">Send Bill</button>
+                </form>
+            </div>
+
+            <h3 style="margin-top:1rem;">Items</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead><tr><th>Product</th><th>Qty</th><th>Subtotal</th></tr></thead>
+                    <tbody>
+                        <tr th:each="it : ${order.orderItems}">
+                            <td th:text="${it.product.name}">Product</td>
+                            <td th:text="${it.quantity}">1</td>
+                            <td th:text="${it.subtotal}">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

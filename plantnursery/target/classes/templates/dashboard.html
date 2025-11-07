@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Dashboard - GreenHouse Nursery</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <main class="container page">
+        <div class="grid grid-3" style="grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:1rem;">
+            <div class="card kpi fade-in">
+                <div class="kpi">
+                    <div class="kpi-icon">C</div>
+                    <div>
+                        <div class="kpi-value" th:text="${customersCount ?: 0}">0</div>
+                        <div class="kpi-label">Customers</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card kpi fade-in">
+                <div class="kpi">
+                    <div class="kpi-icon">P</div>
+                    <div>
+                        <div class="kpi-value" th:text="${productsCount ?: 0}">0</div>
+                        <div class="kpi-label">Products</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card kpi fade-in">
+                <div class="kpi">
+                    <div class="kpi-icon">O</div>
+                    <div>
+                        <div class="kpi-value" th:text="${ordersCount ?: 0}">0</div>
+                        <div class="kpi-label">Orders</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid" style="margin-top:1rem; grid-template-columns: 2fr 1fr; gap:1rem;">
+            <div class="card fade-in">
+                <h3 style="margin-top:0;">Recent Orders</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                          <tr><th>ID</th><th>Customer</th><th>Total</th><th>Delivery</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="o : ${recentOrders}">
+                            <td th:text="${o.id}">1</td>
+                            <td th:text="${o.customer != null ? o.customer.name : '—'}">Name</td>
+                            <td th:text="${o.total}">0</td>
+                            <td th:text="${o.deliveryDate}">2025-01-01</td>
+                            <td><span class="badge" th:text="${o.status}">NEW</span></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(recentOrders)}"><td colspan="5" class="text-muted">No orders yet</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <aside class="card fade-in">
+                <h4 style="margin-top:0;">Low Stock</h4>
+                <ul style="list-style:none; padding-left:0; margin:0;">
+                    <li th:each="p : ${lowStock}" style="padding:.5rem 0; border-bottom:1px dashed rgba(15,23,42,0.03);">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <div style="font-weight:700;" th:text="${p.name}">Plant</div>
+                                <div class="text-muted" th:text="${p.species}">Species</div>
+                            </div>
+                            <div class="text-muted">Stock: <strong th:text="${p.stockQuantity}">0</strong></div>
+                        </div>
+                    </li>
+                    <li th:if="${#lists.isEmpty(lowStock)}" class="text-muted">All good — no low stock items</li>
+                </ul>
+            </aside>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <a th:href="@{/orders/new}" class="fab" title="New Order">+</a>
+</body>
+</html>
