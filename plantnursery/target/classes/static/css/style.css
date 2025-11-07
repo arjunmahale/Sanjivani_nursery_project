@@ -228,7 +228,7 @@ body{
 .form-row{ display:flex; gap:1rem; align-items:center; margin-bottom:0.75rem; }
 .form-field{ flex:1; display:flex; flex-direction:column; gap:.35rem; }
 label{ font-weight:600; color:var(--muted); font-size:.9rem; }
-input[type="text"], input[type="date"], input[type="number"], input[type="email"], select, textarea {
+input[type="text"], input[type="date"],input[type="password"], input[type="number"], input[type="email"], select, textarea {
   padding:.6rem .75rem;
   border-radius:8px;
   border:1px solid rgba(15,23,42,0.06);
